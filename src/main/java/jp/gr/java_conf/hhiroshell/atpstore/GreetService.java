@@ -26,6 +26,7 @@ import io.helidon.webserver.Routing;
 import io.helidon.webserver.ServerRequest;
 import io.helidon.webserver.ServerResponse;
 import io.helidon.webserver.Service;
+import jp.gr.java_conf.hhiroshell.atpstore.model.AtpStoreDataSource;
 import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.MetricRegistry;
 
@@ -94,7 +95,7 @@ public class GreetService implements Service {
     }
 
     private void sendResponse(ServerResponse response, String name) {
-        DataSource dataSource = AtpDataSource.getInstance();
+        DataSource dataSource = AtpStoreDataSource.getInstance();
         try {
             dataSource.getConnection();
         } catch (SQLException e) {
