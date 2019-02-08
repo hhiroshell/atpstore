@@ -18,7 +18,6 @@ package jp.gr.java_conf.hhiroshell.atpstore;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.sql.DataSource;
 
 import io.helidon.config.Config;
 import io.helidon.metrics.RegistryFactory;
@@ -28,8 +27,6 @@ import io.helidon.webserver.ServerResponse;
 import io.helidon.webserver.Service;
 import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.MetricRegistry;
-
-import java.sql.SQLException;
 
 /**
  * A simple service to greet you. Examples:
@@ -74,6 +71,11 @@ public class GreetService implements Service {
             .put("/greeting/{greeting}", this::updateGreetingHandler);
     }
 
+    private void countAccess(ServerRequest request, ServerResponse response) {
+        accessCtr.inc();
+        request.next();
+    }
+
     /**
      * Return a wordly greeting message.
      * @param request the server request
@@ -94,13 +96,6 @@ public class GreetService implements Service {
     }
 
     private void sendResponse(ServerResponse response, String name) {
-        DataSource dataSource = AtpDataSource.getInstance();
-        try {
-            dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         String msg = String.format("%s %s!", greeting, name);
 
         JsonObject returnObject = Json.createObjectBuilder()
@@ -121,11 +116,6 @@ public class GreetService implements Service {
                 .add("greeting", greeting)
                 .build();
         response.send(returnObject);
-    }
-
-    private void countAccess(ServerRequest request, ServerResponse response) {
-        accessCtr.inc();
-        request.next();
     }
 
 }
