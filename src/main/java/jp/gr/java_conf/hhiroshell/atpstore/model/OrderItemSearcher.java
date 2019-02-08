@@ -16,11 +16,13 @@
 
 package jp.gr.java_conf.hhiroshell.atpstore.model;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jp.gr.java_conf.hhiroshell.atpstore.model.OrderItemTableDefinition.Column;
 
@@ -43,15 +45,18 @@ public class OrderItemSearcher extends AtpStoreSearcher<OrderItem> {
                         .setProductId(resultSet.getInt(Column.COL_PRODUCT_ID.getLabel()))
                         .setUnitPrice(resultSet.getDouble(Column.COL_UNIT_PRICE.getLabel()))
                         .setQuantity(resultSet.getInt(Column.COL_QUANTITY.getLabel()))
-                        .setDispatchDate(resultSet.getDate(Column.COL_DISPATCH_DATE.getLabel()).toLocalDate()
-                                .atStartOfDay(ZoneId.of("America/Montreal")))
-                        .setReturnDate(resultSet.getDate(Column.COL_RETURN_DATE.getLabel()).toLocalDate()
-                                .atStartOfDay(ZoneId.of("America/Montreal")))
+                        .setDispatchDate(Optional.ofNullable(
+                                resultSet.getDate(Column.COL_DISPATCH_DATE.getLabel())).orElse(new Date(0))
+                                .toLocalDate().atStartOfDay(ZoneId.of("America/Montreal")))
+                        .setReturnDate(Optional.ofNullable(
+                                resultSet.getDate(Column.COL_RETURN_DATE.getLabel())).orElse(new Date(0))
+                                .toLocalDate().atStartOfDay(ZoneId.of("America/Montreal")))
                         .setGiftWrap(resultSet.getString(Column.COL_GIFT_WRAP.getLabel()))
                         .setCondition(resultSet.getString(Column.COL_CONDITION.getLabel()))
                         .setSupplierId(resultSet.getInt(Column.COL_SUPPLIER_ID.getLabel()))
-                        .setEstimatedDelivery(resultSet.getDate(Column.COL_ESTIMATED_DELIVERY.getLabel()).toLocalDate()
-                                .atStartOfDay(ZoneId.of("America/Montreal")))
+                        .setEstimatedDelivery(Optional.ofNullable(
+                                resultSet.getDate(Column.COL_ESTIMATED_DELIVERY.getLabel())).orElse(new Date(0))
+                                .toLocalDate().atStartOfDay(ZoneId.of("America/Montreal")))
                         .Build();
             } else {
                 orderItem = builder.Build();

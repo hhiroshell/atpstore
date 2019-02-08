@@ -34,7 +34,7 @@ public abstract class AtpStoreSearcher<V> {
      */
     boolean fetchAllColumns = false;
 
-    private AtpStoreSerchStrategy strategy = new SpecifyIdStrategy(12);
+    private AtpStoreSerchStrategy strategy = new SpecifyIdStrategy("1");
 
     private DataSource dataSource = AtpStoreDataSource.getInstance();
 

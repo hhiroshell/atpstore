@@ -96,7 +96,8 @@ public final class Main {
                 .register(JsonSupport.create())
                 .register(health)                   // Health at "/health"
                 .register(MetricsSupport.create())  // Metrics at "/metrics"
-                .register("/greet", new GreetService(config))
+//                .register("/greet", new GreetService(config))
+                .register("/orderitem", new OrderItemService())
                 .build();
     }
 

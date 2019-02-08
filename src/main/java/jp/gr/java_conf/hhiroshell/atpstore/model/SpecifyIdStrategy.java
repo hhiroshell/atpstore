@@ -18,9 +18,9 @@ package jp.gr.java_conf.hhiroshell.atpstore.model;
 
 public class SpecifyIdStrategy implements AtpStoreSerchStrategy {
 
-    private final int id;
+    private final String id;
 
-    public SpecifyIdStrategy(int id) {
+    public SpecifyIdStrategy(String id) {
         this.id = id;
     }
 

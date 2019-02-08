@@ -43,8 +43,31 @@ spec:
     spec:
       containers:
       - name: ${project.artifactId}
-        image: fra.ocir.io/orasejapan/devsumi/${project.artifactId}:latest
+        image: hhayakaw/${project.artifactId}:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
+        env:
+          - name: DATABASE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: atp-admin
+                key: username
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: atp-admin
+                key: password
+          - name: DATABASE_SERVICE
+            value: "demo201902_low"
+          - name: DATABASE_TNS_ADMIN
+            value: "/etc/atp-wallet"
+        volumeMounts:
+        - name: atp-wallet
+          mountPath: "/etc/atp-wallet"
+      volumes:
+      - name: atp-wallet
+        secret:
+          secretName: atp-wallet
+          defaultMode: 256
 ---

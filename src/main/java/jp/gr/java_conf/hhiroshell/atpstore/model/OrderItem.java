@@ -16,6 +16,8 @@
 
 package jp.gr.java_conf.hhiroshell.atpstore.model;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import java.time.ZonedDateTime;
 
 public class OrderItem implements AtpStoreObject {
@@ -165,6 +167,22 @@ public class OrderItem implements AtpStoreObject {
 
     public ZonedDateTime getEstimatedDelivery() {
         return estimatedDelivery;
+    }
+
+    @Override
+    public JsonObjectBuilder toJsonObjectBuilder() {
+        return Json.createObjectBuilder()
+                .add("orderId", getOrderId())
+                .add("lineItemId", getLineItemId())
+                .add("productId", getProductId())
+                .add("unitPrice", getUnitPrice())
+                .add("quantity", getQuantity())
+                .add("dispatchDate", getDispatchDate().toString())
+                .add("returnDate", getReturnDate().toString())
+                .add("giftWrap", getGiftWrap())
+                .add("condition", getCondition())
+                .add("supplierId", getSupplierId())
+                .add("estimatedDelivery", getEstimatedDelivery().toString());
     }
 
 }

@@ -16,6 +16,10 @@
 
 package jp.gr.java_conf.hhiroshell.atpstore.model;
 
+import javax.json.JsonObjectBuilder;
+
 public interface AtpStoreObject {
+
+    public abstract JsonObjectBuilder toJsonObjectBuilder();
 
 }
