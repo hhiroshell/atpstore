@@ -34,7 +34,7 @@ public class AtpStoreDataSource {
 
     private static final String CONNECTION_FACTORY_CLASS_NAME = "oracle.jdbc.pool.OracleDataSource";
 
-    private static final int INITIAL_POOL_SIZE = 5;
+    private static final int INITIAL_POOL_SIZE = 10;
 
     private static DataSource instance;
 
