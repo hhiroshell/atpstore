@@ -54,9 +54,9 @@ public class GreetService implements Service {
         this.greeting = config.get("app.greeting").asString().orElse("Ciao");
     }
 
-    private final MetricRegistry registry = RegistryFactory.getRegistryFactory().get()
-            .getRegistry(MetricRegistry.Type.APPLICATION);
-    private final Counter accessCtr = registry.counter("accessctr");
+//    private final MetricRegistry registry = RegistryFactory.getRegistryFactory().get()
+//            .getRegistry(MetricRegistry.Type.APPLICATION);
+//    private final Counter accessCtr = registry.counter("accessctr");
 
     /**
      * A service registers itself by updating the routine rules.
@@ -65,16 +65,16 @@ public class GreetService implements Service {
     @Override
     public void update(Routing.Rules rules) {
         rules
-            .any(this::countAccess)
+//            .any(this::countAccess)
             .get("/", this::getDefaultMessageHandler)
             .get("/{name}", this::getMessageHandler)
             .put("/greeting/{greeting}", this::updateGreetingHandler);
     }
 
-    private void countAccess(ServerRequest request, ServerResponse response) {
-        accessCtr.inc();
-        request.next();
-    }
+//    private void countAccess(ServerRequest request, ServerResponse response) {
+//        accessCtr.inc();
+//        request.next();
+//    }
 
     /**
      * Return a wordly greeting message.

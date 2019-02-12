@@ -16,14 +16,14 @@
 
 package jp.gr.java_conf.hhiroshell.atpstore;
 
+import io.helidon.metrics.RegistryFactory;
 import io.helidon.webserver.Routing;
 import io.helidon.webserver.ServerRequest;
 import io.helidon.webserver.ServerResponse;
 import io.helidon.webserver.Service;
-import jp.gr.java_conf.hhiroshell.atpstore.model.AtpStoreSearcher;
-import jp.gr.java_conf.hhiroshell.atpstore.model.OrderItem;
-import jp.gr.java_conf.hhiroshell.atpstore.model.OrderItemSearcher;
-import jp.gr.java_conf.hhiroshell.atpstore.model.SpecifyIdStrategy;
+import jp.gr.java_conf.hhiroshell.atpstore.model.*;
+import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.MetricRegistry;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -31,6 +31,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OrderItemService implements Service {
+
+    private final MetricRegistry registry = RegistryFactory.getRegistryFactory().get()
+            .getRegistry(MetricRegistry.Type.APPLICATION);
+    private final Counter tpsctr = registry.counter("tps");
 
     @Override
     public void update(Routing.Rules rules) {
@@ -47,6 +51,7 @@ public class OrderItemService implements Service {
                     .fetchAllAttributes(true)
                     .setSearchStrategy(new SpecifyIdStrategy(request.path().param("orderId")))
                     .search();
+            tpsctr.inc();
         } catch (SQLException e) {
             e.printStackTrace();
         }

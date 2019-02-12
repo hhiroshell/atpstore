@@ -27,6 +27,7 @@ import io.helidon.webserver.Routing;
 import io.helidon.webserver.ServerConfiguration;
 import io.helidon.webserver.WebServer;
 import io.helidon.webserver.json.JsonSupport;
+import jp.gr.java_conf.hhiroshell.atpstore.model.AtpStoreDataSource;
 
 /**
  * Simple Hello World rest application.
@@ -66,6 +67,9 @@ public final class Main {
                 ServerConfiguration.create(config.get("server"));
 
         WebServer server = WebServer.create(serverConfig, createRouting(config));
+
+        // Initialize connection pool.
+        AtpStoreDataSource.getInstance();
 
         // Start the server and print some info.
         server.start().thenAccept(ws -> {
