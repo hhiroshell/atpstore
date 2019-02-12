@@ -1,3 +1,4 @@
+# api
 api/target/
 api/pom.xml.tag
 api/pom.xml.releaseBackup
@@ -10,3 +11,11 @@ api/.mvn/timing.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/api/.mvn/wrapper/maven-wrapper.jar
+
+# loadtester
+loadtester/.terraform/
+loadtester/terraform.tfstate
+loadtester/terraform.tfstate.backup
+loadtester/terraform.tfvars
+loadtester/ssh/ssh-key
+loadtester/ssh/ssh-key.pub

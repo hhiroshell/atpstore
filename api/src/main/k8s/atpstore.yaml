@@ -20,6 +20,8 @@ metadata:
   name: ${project.artifactId}
   labels:
     app: ${project.artifactId}
+  annotations:
+    service.beta.kubernetes.io/oci-load-balancer-shape: 400Mbps
 spec:
   type: LoadBalancer
   selector:
@@ -34,7 +36,7 @@ apiVersion: extensions/v1beta1
 metadata:
   name: ${project.artifactId}
 spec:
-  replicas: 1
+  replicas: 8
   template:
     metadata:
       labels:
@@ -43,20 +45,20 @@ spec:
     spec:
       containers:
       - name: ${project.artifactId}
-        image: hhayakaw/${project.artifactId}:latest
-        imagePullPolicy: IfNotPresent
+        image: ${ocir.registory}/${ocir.tenancy}/${project.artifactId}:${project.version}
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
           - name: DATABASE_USERNAME
             valueFrom:
               secretKeyRef:
-                name: atp-admin
+                name: atp-user
                 key: username
           - name: DATABASE_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: atp-admin
+                name: atp-user
                 key: password
           - name: DATABASE_SERVICE
             value: "demo201902_low"
@@ -65,6 +67,9 @@ spec:
         volumeMounts:
         - name: atp-wallet
           mountPath: "/etc/atp-wallet"
+        resources:
+          requests:
+            cpu: 200m
       volumes:
       - name: atp-wallet
         secret:

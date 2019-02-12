@@ -39,6 +39,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <argLine>-Dfile.encoding=UTF-8</argLine>
+        <ocir.registory>lhr.ocir.io</ocir.registory>
+        <ocir.tenancy>orasejapan</ocir.tenancy>
     </properties>
 
     <repositories>
@@ -242,7 +244,9 @@
                                     <filtering>true</filtering>
                                     <directory>src/main/k8s</directory>
                                     <includes>
-                                        <include>app.yaml</include>
+                                        <include>atpstore.yaml</include>
+                                        <include>atpstore-hpa.yaml</include>
+                                        <include>atpstore-service-monitor.yaml</include>
                                     </includes>
                                 </resource>
                             </resources>
